@@ -33,10 +33,28 @@ async function run() {
 
         })
 
-        //to POST service
+        //to POST/ add new service
         app.post('/service', async (req, res) => {
             const newService = req.body;
             const result = await serviceCollection.insertOne(newService);
+            res.send(result);
+        })
+
+        //update a service
+        app.put('/service/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedService = req.body;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    name: updatedService.name,
+                    description: updatedService.description,
+                    price: updatedService.price,
+                    img: updatedService.img
+                }
+            };
+            const result = await serviceCollection.updateOne(filter, updatedDoc, options);
             res.send(result);
         })
 
