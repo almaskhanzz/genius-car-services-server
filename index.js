@@ -17,7 +17,7 @@ async function run() {
     try {
         await client.connect();
         const serviceCollection = client.db('geniusCar').collection('service');
-        //to get all the service
+        //to get all the services
         app.get('/service', async (req, res) => {
             const query = {};
             const cursor = serviceCollection.find(query);
